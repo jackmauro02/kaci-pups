@@ -32,9 +32,10 @@ async function loadBookings() {
 
   const q = query(
     collection(db, "bookings"),
-    orderBy("date", "asc")
   );
 
+
+  
   const snap = await getDocs(q);
 
   snap.forEach(docSnap => {
@@ -43,7 +44,8 @@ async function loadBookings() {
     // ✅ Guard against broken bookings
     if (!b.date) return;
 
-    const bookingDate = b.date.toDate();
+    const bookingDate = new Date(b.date);
+
     const status = b.status || "pending";
 
     const card = document.createElement("div");

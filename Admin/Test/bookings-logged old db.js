@@ -1,4 +1,4 @@
-import { auth, db } from "./firebase.js";
+import { auth, db } from "../../js/firebase.js";
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -8,7 +8,6 @@ import {
   getDocs,
   query,
   orderBy,
-  where,
   Timestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -94,35 +93,35 @@ form.addEventListener("submit", async (e) => {
 
   if (!dogId || !service || !date || !time) return;
 
-  await addDoc(collection(db, "bookings"), {
-    userId: currentUserId,      // 🔐 ownership
-    dogId,
-    dogName,
-    service,
-    price,
-    date,
-    time,
-    notes,
-    status: "pending",          // admin controls this
-    createdAt: Timestamp.now()
-  });
+  await addDoc(
+    collection(db, "users", currentUserId, "bookings"),
+    {
+      dogId,
+      dogName,
+      service,
+      price,
+      date,
+      time,
+      notes,
+      status: "pending",
+      createdAt: Timestamp.now()
+    }
+  );
 
   form.reset();
   loadBookings();
 });
 
-/* ================= LOAD BOOKINGS (USER ONLY) ================= */
+/* ================= LOAD BOOKINGS ================= */
 async function loadBookings() {
   upcomingList.innerHTML = "";
   pastList.innerHTML = "";
 
   const q = query(
-    collection(db, "bookings"),
-    where("userId", "==", currentUserId),
+    collection(db, "users", currentUserId, "bookings"),
+    orderBy("date", "desc")
   );
 
-
-  
   const snap = await getDocs(q);
   const today = new Date().toISOString().split("T")[0];
 
