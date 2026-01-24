@@ -1,0 +1,219 @@
+/* Grid */
+.dogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.dog-avatar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;          /* 🔥 moved to right */
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  background: #f3f3f3;
+}
+
+/* Dog card */
+.dog-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  padding-top: 3.2rem;
+}
+
+.dog-section {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.dog-section strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+/* Actions */
+.dog-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+/* ================= MODAL (FINAL COMPACT FIX) ================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 1.5rem;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  height: 90vh;                 /* FIXED HEIGHT */
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  max-height: calc(100vh - 3rem);
+}
+
+/* Header */
+.modal-card h3 {
+  padding: 0.85rem 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+/* Scrollable body */
+.modal-body {
+  flex: 1;
+  padding: 0.85rem 1.2rem;
+  overflow-y: auto;
+}
+
+/* Labels */
+.modal-body label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  display: block;
+  color: #333;
+}
+
+/* Inputs */
+.modal-body input,
+.modal-body textarea {
+  width: 100%;
+  padding: 0.4rem 0.55rem;
+  margin-bottom: 0.55rem;
+  border-radius: 7px;
+  border: 1px solid #d8d8d8;
+  font-size: 0.82rem;
+}
+
+.modal-body textarea {
+  min-height: 38px;     /* one-line look */
+  max-height: 90px;     /* still expandable */
+  resize: vertical;
+}
+
+/* === OFF LEAD + LEAD NOTES ROW === */
+.inline-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.7rem;
+  margin-bottom: 0.55rem;
+  align-items: end;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  margin-top: 1.1rem;
+}
+
+/* Footer (ALWAYS VISIBLE) */
+.modal-actions {
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  background: white;
+}
+
+.modal-body input[type="file"] {
+  font-size: 0.78rem;
+  padding: 0.35rem;
+}
+
+/* ================= MODAL BUTTONS ================= */
+
+#closeModal {
+  background: #f1f3f5;
+  color: #333;
+  border: 1px solid #dcdcdc;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#closeModal:hover {
+  background: #e6e8ea;
+}
+
+#closeModal:active {
+  transform: translateY(1px);
+}
+
+/* Save / Submit */
+#saveModal {
+  background: #155724;        /* primary brand blue */
+  color: white;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+#saveModal:hover {
+  background: #2d6cdf;
+  box-shadow: 0 4px 10px rgba(45, 108, 223, 0.25);
+}
+
+#saveModal:active {
+  transform: translateY(1px);
+}
+
+/* Optional: keep buttons aligned nicely */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Back link */
+.back-row {
+  margin-top: 1.5rem;
+}
+
+.back-link {
+  font-size: 0.95rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}

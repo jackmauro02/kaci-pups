@@ -1,0 +1,118 @@
+.account-details {
+  padding: 4.5rem 0;
+}
+
+.details-card {
+  background: white;
+  padding: 2.8rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 3rem;
+}
+
+.details-card.muted {
+  background: var(--secondary);
+}
+
+.details-card h2 {
+  margin-bottom: 1.6rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.3rem;
+}
+
+.account-details input {
+  padding: 0.75rem 0.85rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.account-details input[readonly] {
+  background: #f2f2f2;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.account-details input.editable {
+  background: #fff;
+  border-color: var(--primary);
+}
+
+#email {
+  background: #eaeaea;
+  font-weight: 500;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.save-status {
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Back link */
+.back-row {
+  margin-top: 1.5rem;
+}
+
+.back-link {
+  font-size: 0.95rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Agreements */
+.agreements {
+  list-style: none;
+  padding-left: 0;
+}
+
+.agreements li {
+  margin-bottom: 0.6rem;
+}
+
+.agreements a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.agreements a:hover {
+  text-decoration: underline;
+}
+
+.muted-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

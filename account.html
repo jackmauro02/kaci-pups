@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Account | Kaci’s Pups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/account.css">
+
+  <script src="js/nav.js" defer></script>
+  <script type="module" src="js/account.js"></script>
+
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+  <a href="index.html" class="brand">
+        <img src="images/kacispups.png" alt="Kaci’s Pups Logo">
+        <span class="brand-title">Kaci’s Pups</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="bookings.html">Bookings</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a class="btn btn-primary active" href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>My Account</h1>
+    <p>Manage your walks and account details</p>
+  </div>
+</section>
+
+<!-- AUTH -->
+<section class="account-section container" id="authSection">
+  <div class="auth-grid">
+
+    <!-- LOGIN -->
+    <div class="auth-card">
+      <h2>Login</h2>
+
+      <form id="loginForm">
+        <input id="loginEmail" type="email" placeholder="Email" required>
+        <input id="loginPassword" type="password" placeholder="Password" required>
+        <button class="btn btn-primary">Login</button>
+      </form>
+
+      <div class="divider">or</div>
+
+      <button type="button" class="btn btn-google" id="googleLogin">
+        <img src="images/google.png" alt="">
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-card muted">
+      <h2>Create Account</h2>
+
+      <form id="registerForm">
+        <input id="firstName" placeholder="First name" required>
+        <input id="lastName" placeholder="Last name" required>
+        <input id="registerEmail" type="email" placeholder="Email" required>
+        <input id="phone" placeholder="Phone number" required>
+        <input id="registerPassword" type="password" placeholder="Password" required>
+        <input id="address" placeholder="Address" required>
+        <input id="postcode" placeholder="Postcode" required>
+        <button class="btn btn-secondary">Create Account</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="account-section container hidden" id="dashboardSection">
+  <div class="dashboard-header">
+    <h2>Welcome back 👋</h2>
+    <button class="btn btn-secondary" id="logoutBtn">Log out</button>
+  </div>
+
+  <div class="dashboard-grid">
+    <a href="loggedBookings.html" class="dashboard-card clickable">
+      <h3>My Bookings</h3>
+      <p>Create and manage your walks</p>
+    </a>
+
+    <a href="dogs.html" class="dashboard-card clickable">
+      <h3>My Dogs</h3>
+      <p>Add and manage your dogs</p>
+    </a>
+
+    <a href="manageAccount.html" class="dashboard-card clickable">
+      <h3>Manage Account</h3>
+      <p>Update your details & documents</p>
+    </a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <img src="images/kacispups.png" alt="Kaci’s Pups Logo" />
+      <p class="footer-tagline">
+        Reliable dog walking & pet care<br />
+        Local to Berkshire
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Berkshire, UK</p>
+      <a href="contact.html" class="footer-link">Get in touch →</a>
+    </div>
+
+    <!-- Follow -->
+    <div class="footer-section">
+      <h4>Follow</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Kaci’s Pups • All rights reserved
+  </div>
+</footer>
+
+</body>
+</html>

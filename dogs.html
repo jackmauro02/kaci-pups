@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Dogs | Kaci’s Pups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/account.css">
+  <link rel="stylesheet" href="css/dogs.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+        <img src="images/kacispups.png" alt="Kaci’s Pups Logo">
+        <span class="brand-title">Kaci’s Pups</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="bookings.html">Bookings</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a class="btn btn-primary" href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>My Dogs</h1>
+    <p>Manage your dogs and their care information</p>
+  </div>
+</section>
+
+<div class="container back-row">
+  <a href="account.html" class="back-link">← Back to dashboard</a>
+</div>
+
+<section class="account-section container">
+
+  <div class="dashboard-header">
+    <h2>Your Dogs</h2>
+    <button class="btn btn-primary" id="openModal">Add Dog</button>
+  </div>
+
+  <div id="dogsList" class="dogs-grid"></div>
+
+</section>
+
+<!-- MODAL -->
+<div class="modal hidden" id="dogModal">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h3 id="modalTitle">Add Dog</h3>
+    </div>
+
+    <form id="dogForm" class="modal-form">
+
+      <div class="modal-body">
+
+        <label>Dog name</label>
+        <input id="dogName" required>
+
+        <label>Breed</label>
+        <input id="dogBreed">
+
+        <label>Age</label>
+        <input id="dogAge" type="number" min="0">
+
+        <label>Behaviour / reactivity notes</label>
+        <textarea id="dogBehaviour"></textarea>
+
+        <div class="inline-row">
+          <div class="checkbox-block">
+            <label>&nbsp;</label>
+            <label class="checkbox-wrap">
+              Permission to be off lead
+             <input type="checkbox" id="offLead"> 
+            </label>
+          </div>
+
+          <div>
+            <label>Lead required notes</label>
+            <textarea id="leadNotes"></textarea>
+          </div>
+        </div>
+
+        <label>Fears / socialisation restrictions</label>
+        <textarea id="dogFears"></textarea>
+
+        <label>Allergies</label>
+        <textarea id="dogAllergies"></textarea>
+
+        <label>Medical conditions / injuries</label>
+        <textarea id="dogMedical"></textarea>
+
+        <label>Registered vets</label>
+        <input id="dogVets">
+ 
+        <button type="button" class="btn btn-secondary" id="closeModal">Cancel</button>
+        <button class="btn btn-primary" id="saveModal" type="submit">Save</button>
+      </div>
+
+      <div class="modal-actions">
+       
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <img src="images/kacispups.png" alt="Kaci’s Pups Logo" />
+      <p class="footer-tagline">
+        Reliable dog walking & pet care<br />
+        Local to Berkshire
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Berkshire, UK</p>
+      <a href="contact.html" class="footer-link">Get in touch →</a>
+    </div>
+
+    <!-- Follow -->
+    <div class="footer-section">
+      <h4>Follow</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Kaci’s Pups • All rights reserved
+  </div>
+</footer>
+
+<script type="module" src="js/dogs.js"></script>
+</body>
+</html>

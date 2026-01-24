@@ -1,0 +1,190 @@
+.account-section {
+    padding: 4.5rem 0;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ================= AUTH ================= */
+.auth-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+}
+
+.auth-card {
+    background: white;
+    padding: 2.8rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.auth-card.muted {
+    background: var(--secondary);
+}
+
+.auth-card h2 {
+    margin-bottom: 1.2rem;
+}
+
+.auth-card p {
+    margin-bottom: 1.5rem;
+}
+
+.auth-card input {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* ================= DASHBOARD ================= */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 2.2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-card h3 {
+    margin-bottom: 0.8rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+    .auth-grid,
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ================= CARDS ================= */
+.dashboard-card.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+/* ================= FORM INPUT STYLING ================= */
+
+.auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.auth-card input {
+    width: 100%;
+    height: 52px;
+
+    padding: 0 1rem;
+    font-size: 0.95rem;
+    font-family: "Inter", sans-serif;
+
+    border-radius: 10px;
+    border: 1px solid #d6d6d6;
+    background: white;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.auth-card.muted input {
+    background: #ffffff;
+}
+
+.auth-card input::placeholder {
+    color: #9a9a9a;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(58, 106, 90, 0.15);
+}
+
+/* Buttons inside forms */
+.auth-card button {
+    height: 52px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.auth-card input {
+  height: 52px;
+  padding: 0 1rem;
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  font-size: 0.95rem;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(47,93,80,0.15);
+}
+
+/* Divider */
+.divider {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  width: 40%;
+  background: #ddd;
+  position: absolute;
+  top: 50%;
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+/* Google Button */
+.btn-google {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: white;
+  border: 1px solid #d6d6d6;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-google img {
+  height: 18px;
+}
+
+.btn-google:hover {
+  box-shadow: var(--shadow-sm);
+}

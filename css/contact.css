@@ -1,0 +1,133 @@
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+}
+
+.kaci-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-light);
+    padding: 1.4rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.kaci-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.contact-details {
+    list-style: none;
+    padding: 0;
+    font-size: .95rem;
+}
+
+.contact-details li {
+    margin-bottom: .8rem;
+}
+
+.info-box {
+    background: rgba(111,175,152,0.12);
+    border-left: 4px solid var(--primary);
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius-sm);
+    font-size: .95rem;
+}
+
+/* ================= FORM ================= */
+.contact-form {
+    background: var(--bg-light);
+    padding: 2.4rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.contact-form h2 {
+    margin-bottom: .4rem;
+}
+
+.form-intro {
+    font-size: .95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.6rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: .9rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid #ddd;
+    font-family: inherit;
+    font-size: .95rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(111,175,152,0.15);
+}
+
+.contact-form textarea {
+    margin-top: 1rem;
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-helper {
+    margin-top: .8rem;
+    font-size: .85rem;
+    color: var(--text-muted);
+}
+
+.form-status {
+    margin-top: 1rem;
+    font-size: .9rem;
+}
+
+/* ================= MAP ================= */
+.map-section {
+    margin-top: 4rem;
+}
+
+.map-section h2 {
+    text-align: center;
+}
+
+.map-intro {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+}
+
+.map-section iframe {
+    width: 100%;
+    height: 420px;
+    border: none;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}

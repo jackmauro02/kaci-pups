@@ -1,0 +1,57 @@
+body {
+  font-family: Inter, sans-serif;
+  background: #f6f7fb;
+  margin: 0;
+}
+
+header {
+  background: #222;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.booking-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.booking-card button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #4caf50;
+  color: white;
+}
+
+.login-box {
+  max-width: 350px;
+  margin: 10vh auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.login-box input, button {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.8rem;
+}

@@ -1,0 +1,171 @@
+/* Grid */
+.dogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Dog card */
+.dog-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dog-section {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.dog-section strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+/* Actions */
+.dog-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+}
+
+/* Grid */
+.dogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+/* Dog card */
+.dog-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+#dogForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+/* ================= MODAL ================= */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden; /* IMPORTANT */
+}
+
+.modal-card h3 {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid #eee;
+  font-size: 1.05rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+
+/* Header */
+.modal-header {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Form wrapper */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Scrollable body */
+.modal-body {
+  flex: 1;
+  padding: 1rem 1.2rem;
+  overflow-y: auto;
+}
+
+/* Labels */
+.modal-body label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  display: block;
+}
+
+/* Inputs */
+.modal-body input,
+.modal-body textarea {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  margin-bottom: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #d8d8d8;
+  font-size: 0.82rem;
+}
+
+/* Inline row */
+.inline-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.8rem;
+  align-items: end;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  margin-top: 1.1rem;
+}
+
+/* Footer */
+.modal-actions {
+  padding: 0.9rem 1.2rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  background: white;
+  flex-shrink: 0;
+}
+
+
+
+.modal-body input[type="file"] {
+  font-size: 0.78rem;
+  padding: 0.35rem;
+}
+
+
+

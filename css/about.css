@@ -1,0 +1,135 @@
+/* ================= ABOUT HERO ================= */
+.about-hero {
+  background: linear-gradient(
+    135deg,
+    rgba(111,175,152,0.95),
+    rgba(95,164,139,0.95)
+  );
+  color: white;
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.about-hero p {
+  max-width: 55ch;
+  margin: 1rem auto 0;
+  opacity: 0.95;
+}
+
+/* ================= FLEX LAYOUT ================= */
+.about-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 1.25rem; /* ✅ critical for mobile */
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+
+.about-container.reverse {
+  flex-direction: row;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-image {
+  flex: 1;
+  max-width: 420px;
+  width: 100%;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+
+/* ================= TEXT STYLES ================= */
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.about-text h2 {
+  margin-top: 0.5rem;
+}
+
+.about-text .highlight {
+  background: rgba(111,175,152,0.12);
+  padding: 1rem 1.2rem;
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-sm);
+}
+
+/* ================= TRUST STRIP ================= */
+.trust-strip {
+  background: white;
+  padding: 3rem 0;
+}
+
+.trust-item {
+  background: var(--secondary);
+  padding: 1.2rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ================= CTA ================= */
+.about-cta {
+  background: linear-gradient(135deg, var(--cta), #3b7fc7);
+  color: white;
+  text-align: center;
+  padding: 4.5rem 0;
+}
+
+.about-cta p {
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 1.8rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-container.reverse {
+    flex-direction: column;
+  }
+
+  .about-text,
+  .about-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .about-text {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-hero {
+    padding: 3rem 1.25rem;
+  }
+
+  .about-hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .about-hero p {
+    font-size: 1rem;
+  }
+}
+
+

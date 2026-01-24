@@ -1,0 +1,86 @@
+/* ================= SERVICES HERO ================= */
+.services-hero {
+    background: linear-gradient(
+        135deg,
+        rgba(111,175,152,0.95),
+        rgba(95,164,139,0.95)
+    );
+    color: white;
+    text-align: center;
+    padding: 5rem 0;
+}
+
+.services-hero p {
+    max-width: 60ch;
+    margin: 1rem auto 0;
+    opacity: 0.95;
+}
+
+/* ================= INTRO ================= */
+.services-intro {
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.services-intro p {
+    font-size: 1.05rem;
+}
+
+/* ================= SERVICE CARDS ================= */
+.service-card {
+    position: relative;
+}
+
+.service-card .price {
+    display: block;
+    margin-top: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.service-card ul.service-list {
+    margin-top: 1rem;
+    padding-left: 1.1rem;
+}
+
+.service-card ul li {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.service-card.featured {
+    border: 2px solid rgba(74,144,226,0.35);
+}
+
+.badge {
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    background: var(--cta);
+    color: white;
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* ================= INFO STRIP ================= */
+.pricing-info {
+    background: white;
+    padding: 3.5rem 0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.8rem;
+}
+
+.info-item {
+    background: var(--secondary);
+    padding: 1.4rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-align: center;
+}

@@ -1,0 +1,156 @@
+.gallery-grid {
+    columns: 4 220px;
+    column-gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    break-inside: avoid;
+}
+
+.gallery-item img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.02);
+    box-shadow: var(--shadow);
+}
+
+/* Overlay */
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    color: white;
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay span {
+    font-weight: 500;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 2000;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: var(--radius);
+}
+
+.lightbox p {
+    color: white;
+    margin-top: 1rem;
+}
+
+.lightbox .close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .gallery-grid {
+        columns: 3 180px;
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery-grid {
+        columns: 2 160px;
+    }
+}
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 2000;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 70vh;
+    border-radius: 12px;
+}
+
+.lightbox p {
+    color: white;
+    margin-top: 1rem;
+}
+
+.lightbox .close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+}
+
+
+/* Lightbox arrows */
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    font-size: 2.5rem;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    border-radius: 50%;
+    user-select: none;
+}
+
+.lightbox-arrow:hover {
+    background: rgba(0,0,0,0.85);
+}
+
+.lightbox-arrow.prev {
+    left: 20px;
+}
+
+.lightbox-arrow.next {
+    right: 20px;
+}
+
+/* Bigger tap targets on mobile */
+@media (max-width: 600px) {
+    .lightbox-arrow {
+        font-size: 2rem;
+        padding: 0.6rem 1rem;
+    }
+}

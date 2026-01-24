@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact | Kaci’s Pups</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Page styles -->
+    <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container nav">
+        <a href="index.html" class="brand">
+        <img src="images/kacispups.png" alt="Kaci’s Pups Logo">
+        <span class="brand-title">Kaci’s Pups</span>
+    </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="bookings.html">Bookings</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a class="active" href="contact.html">Contact</a></li>
+                <li><a class="btn btn-primary" href="account.html">My Account</a></li>
+            </ul>
+        </nav>
+         <!-- Hamburger -->
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    
+    </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="page-hero">
+    <div class="container">
+        <h1>Get in Touch</h1>
+        <p>Questions, bookings, or just want to say hello?</p>
+    </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section contact">
+    <div class="container contact-grid">
+
+        <!-- LEFT PANEL -->
+        <div class="contact-info">
+
+            <div class="kaci-card">
+                <img src="images/kaci.jpg" alt="Kaci from Kaci’s Pups">
+                <div>
+                    <h3>Kaci</h3>
+                    <p>Professional Dog Walker</p>
+                    <p>Graduate in Bsc Wildlife Conservation and Msc Ecology </p>
+                </div>
+            </div>
+
+            <ul class="contact-details">
+                <li><strong>📍 Service Area:</strong> Bracknell, Reading & surrounding Berkshire areas</li>
+                <li><strong>📞 Phone:</strong> <a href="tel:+447720514321">07720514321</a></li>
+                <li><strong>✉️ Email:</strong> <a href="mailto:kacispups@gmail.com">kacispups@gmail.com</a></li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Response time:</strong> Within 24 hours</p>
+                <p><strong>New clients:</strong> Free meet & greet before first walk</p>
+                <p><strong>Walks:</strong> Calm, structured & safety-focused</p>
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <form class="contact-form" id="contactForm">
+            <h2>Send a Message</h2>
+            <p class="form-intro">
+                Tell me a bit about your dog and what you’re looking for — I’ll get back to you as soon as possible.
+            </p>
+
+            <div class="form-group">
+                <input type="text" name="name" placeholder="Your full name" required>
+                <input type="email" name="email" placeholder="Email address" required>
+                <input type="tel" name="phone" placeholder="Phone number (optional)">
+            </div>
+
+            <textarea name="message" placeholder="Tell me about your dog (breed, age, walking needs) or your enquiry" required></textarea>
+
+            <button class="btn btn-primary" type="submit">
+                Send Message
+            </button>
+
+            <p class="form-helper">
+                Your details are only used to respond to your enquiry.
+            </p>
+
+            <p class="form-status" id="formStatus"></p>
+        </form>
+
+    </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section class="map-section">
+    <div class="container">
+        <h2>Service Area</h2>
+        <p class="map-intro">
+            Covering Bracknell, Reading, and surrounding areas across Berkshire.
+        </p>
+    </div>
+<div class="map-container">
+    <iframe
+        src="https://www.google.com/maps?q=Great+Hollands+Bracknell+UK&output=embed"
+        width="100%"
+        height="350"
+        style="border:0; border-radius:12px;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <img src="images/kacispups.png" alt="Kaci’s Pups Logo" />
+      <p class="footer-tagline">
+        Reliable dog walking & pet care<br />
+        Local to Berkshire
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Berkshire, UK</p>
+      <a href="contact.html" class="footer-link">Get in touch →</a>
+    </div>
+
+    <!-- Follow -->
+    <div class="footer-section">
+      <h4>Follow</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Kaci’s Pups • All rights reserved
+  </div>
+</footer>
+<script src="js/contact.js"></script>
+</body>
+</html>

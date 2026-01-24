@@ -1,0 +1,197 @@
+.booking-dashboard {
+  padding: 4.5rem 0;
+  display: grid;
+  gap: 3rem;
+}
+
+/* ================= CARD ================= */
+.booking-card {
+  background: white;
+  padding: 2.8rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.booking-card h2 {
+  margin-bottom: 1.2rem;
+  font-size: 1.25rem;
+}
+
+/* ================= FORM ================= */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 0.65rem 0.7rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form-field.full {
+  grid-column: span 2;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* ================= BOOKINGS ================= */
+.booking-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.booking-item {
+  background: var(--secondary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.booking-info h4 {
+  margin-bottom: 0.25rem;
+}
+
+.booking-info p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ================= STATUS ================= */
+.status {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 0.4rem;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.completed {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* ================= SERVICE REPORT ================= */
+.booking-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.coming-soon {
+  font-size: 0.75rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field.full {
+    grid-column: span 1;
+  }
+
+  .booking-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Back link */
+.back-row {
+  margin-top: 1.5rem;
+}
+
+.back-link {
+  font-size: 0.95rem;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+/* ================= SERVICE REPORT BUTTON ================= */
+.btn-report {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: var(--primary);
+  color: white;
+}
+
+.btn-report:hover {
+  opacity: 0.9;
+}
+
+/* Popup message */
+.report-popup {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.report-popup.show {
+  opacity: 1;
+}
+
+
+
+

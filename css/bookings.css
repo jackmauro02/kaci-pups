@@ -1,0 +1,94 @@
+.booking-request {
+    background: var(--secondary);
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+/* INFO */
+.booking-info ul {
+    margin: 1.5rem 0;
+    padding-left: 1.2rem;
+}
+
+.booking-info li {
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+.booking-info .note {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+/* FORM */
+.booking-form {
+    background: white;
+    padding: 2.8rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    gap: 1.2rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid #ddd;
+    font-family: inherit;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-note {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.8rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .booking-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+.checkbox-group {
+    margin-top: -0.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.cta-box {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.cta-box .btn {
+  width: fit-content;
+}

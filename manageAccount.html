@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Account | Kaci’s Pups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/account.css">
+  <link rel="stylesheet" href="css/account-details.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+        <img src="images/kacispups.png" alt="Kaci’s Pups Logo">
+        <span class="brand-title">Kaci’s Pups</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="bookings.html">Bookings</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a class="btn btn-primary" href="account.html">My Account</a></li>
+            </ul>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>Manage Account</h1>
+    <p>View and update your personal information</p>
+  </div>
+</section>
+
+<div class="container back-row">
+  <a href="account.html" class="back-link">← Back to dashboard</a>
+</div>
+
+<section class="account-details container">
+
+  <!-- ACCOUNT DETAILS -->
+  <div class="details-card">
+    <h2>👤 Account Information</h2>
+
+    <form id="accountForm">
+      <div class="form-grid">
+        <input id="firstName" placeholder="First name" readonly>
+        <input id="lastName" placeholder="Last name" readonly>
+        <input id="email" placeholder="Email address" readonly>
+        <input id="phone" placeholder="Phone number" readonly>
+        <input id="address" placeholder="Address" readonly>
+        <input id="postcode" placeholder="Postcode" readonly>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="editSaveBtn">
+          Edit details
+        </button>
+        <span class="save-status hidden" id="saveStatus">Saved ✔</span>
+      </div>
+    </form>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="details-card muted">
+    <h2>📄 Agreements</h2>
+
+    <ul class="agreements">
+      <li><a href="files/Terms and conditions.pdf" target="_blank">Terms & Conditions</a></li>
+      <li><a href="files/data-protection.pdf" target="_blank">Data Protection Policy</a></li>
+      <li><a href="files/emergency-care.pdf" target="_blank">Emergency Care Consent</a></li>
+    </ul>
+
+    <p class="muted-text">
+      These documents are required to provide dog walking services.
+    </p>
+  </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <img src="images/kacispups.png" alt="Kaci’s Pups Logo" />
+      <p class="footer-tagline">
+        Reliable dog walking & pet care<br />
+        Local to Berkshire
+      </p>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Berkshire, UK</p>
+      <a href="contact.html" class="footer-link">Get in touch →</a>
+    </div>
+
+    <!-- Follow -->
+    <div class="footer-section">
+      <h4>Follow</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Kaci’s Pups • All rights reserved
+  </div>
+</footer>
+
+<script type="module" src="js/manage-account.js"></script>
+<script>
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+</script>
+
+</body>
+</html>
