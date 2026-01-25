@@ -1,18 +1,18 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 import {
   collection,
   addDoc,
   getDocs,
   query,
-  orderBy,
   where,
+  updateDoc,
+  doc,
   Timestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* ================= SERVICES & PRICES ================= */
+/* ================= SERVICES ================= */
 const SERVICES = {
   "Solo Walk (From Home) – 30 minutes": 12,
   "Solo Walk (From Home) – 45 minutes": 15,
@@ -34,12 +34,18 @@ const serviceSelect = document.getElementById("service");
 const upcomingList = document.getElementById("upcomingBookings");
 const pastList = document.getElementById("pastBookings");
 
+/* MODAL */
+const modal = document.getElementById("changeModal");
+const changeDate = document.getElementById("changeDate");
+const changeTime = document.getElementById("changeTime");
+const changeNote = document.getElementById("changeNote");
+
 let currentUserId = null;
+let activeBookingId = null;
 
 /* ================= AUTH ================= */
-onAuthStateChanged(auth, async (user) => {
+onAuthStateChanged(auth, async user => {
   if (!user) return;
-
   currentUserId = user.uid;
   loadServices();
   await loadDogs();
@@ -49,61 +55,48 @@ onAuthStateChanged(auth, async (user) => {
 /* ================= LOAD SERVICES ================= */
 function loadServices() {
   serviceSelect.innerHTML = `<option value="">Select service</option>`;
-
   Object.entries(SERVICES).forEach(([name, price]) => {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = `${name} – £${price}`;
-    option.dataset.price = price;
-    serviceSelect.appendChild(option);
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = `${name} – £${price}`;
+    opt.dataset.price = price;
+    serviceSelect.appendChild(opt);
   });
 }
 
 /* ================= LOAD DOGS ================= */
 async function loadDogs() {
   dogSelect.innerHTML = `<option value="">Select dog</option>`;
-
-  const dogsSnap = await getDocs(
-    collection(db, "users", currentUserId, "dogs")
-  );
-
-  dogsSnap.forEach(docSnap => {
-    const dog = docSnap.data();
-    const option = document.createElement("option");
-    option.value = docSnap.id;
-    option.textContent = dog.name;
-    dogSelect.appendChild(option);
+  const snap = await getDocs(collection(db, "users", currentUserId, "dogs"));
+  snap.forEach(d => {
+    const opt = document.createElement("option");
+    opt.value = d.id;
+    opt.textContent = d.data().name;
+    dogSelect.appendChild(opt);
   });
 }
 
 /* ================= CREATE BOOKING ================= */
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async e => {
   e.preventDefault();
-  if (!currentUserId) return;
 
   const dogId = dogSelect.value;
   const dogName = dogSelect.options[dogSelect.selectedIndex].text;
+  const serviceOpt = serviceSelect.options[serviceSelect.selectedIndex];
 
-  const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
-  const service = serviceOption.value;
-  const price = Number(serviceOption.dataset.price);
-
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const notes = document.getElementById("notes").value;
-
-  if (!dogId || !service || !date || !time) return;
+  const bookingAt = new Date(
+    `${date.value}T${time.value}`
+  );
 
   await addDoc(collection(db, "bookings"), {
-    userId: currentUserId,      // 🔐 ownership
+    userId: currentUserId,
     dogId,
     dogName,
-    service,
-    price,
-    date,
-    time,
-    notes,
-    status: "pending",          // admin controls this
+    service: serviceOpt.value,
+    price: Number(serviceOpt.dataset.price),
+    bookingAt: Timestamp.fromDate(bookingAt),
+    notes: notes.value,
+    status: "pending",
     createdAt: Timestamp.now()
   });
 
@@ -111,86 +104,108 @@ form.addEventListener("submit", async (e) => {
   loadBookings();
 });
 
-/* ================= LOAD BOOKINGS (USER ONLY) ================= */
+/* ================= LOAD BOOKINGS ================= */
 async function loadBookings() {
   upcomingList.innerHTML = "";
   pastList.innerHTML = "";
 
-  const q = query(
-    collection(db, "bookings"),
-    where("userId", "==", currentUserId),
+  const snap = await getDocs(
+    query(collection(db, "bookings"), where("userId", "==", currentUserId))
   );
 
+  const now = new Date();
+  const bookings = [];
 
-  
-  const snap = await getDocs(q);
-  const today = new Date().toISOString().split("T")[0];
+  snap.forEach(d => {
+    const b = d.data();
+    if (!b.bookingAt?.toDate) return;
 
-  snap.forEach(docSnap => {
-    const b = docSnap.data();
-    const isPast = b.date < today;
+    bookings.push({
+      id: d.id,
+      ...b,
+      bookingDate: b.bookingAt.toDate()
+    });
+  });
+
+  bookings.sort((a, b) => a.bookingDate - b.bookingDate);
+
+  bookings.forEach(b => {
+    const isPast = b.bookingDate < now;
 
     const item = document.createElement("div");
     item.className = "booking-item";
 
-    const reportButton = isPast
-      ? `<button class="btn-report" data-report="${b.serviceReportUrl || ""}">
-           Service Report
-         </button>`
-      : "";
-
     item.innerHTML = `
       <div class="booking-info">
         <h4>${b.dogName} – ${b.service}</h4>
-        <p>${b.date} • ${b.time} • £${b.price}</p>
-        <span class="status ${b.status}">${capitalize(b.status)}</span>
+        <p>${formatDate(b.bookingDate)} • ${formatTime(b.bookingDate)} • £${b.price}</p>
+        <span class="status ${b.status}">${formatStatus(b.status)}</span>
       </div>
-      ${reportButton}
+
+      ${!isPast ? `
+      <div class="booking-actions">
+        <button class="btn-sm btn-secondary" data-change="${b.id}">Request change</button>
+        <button class="btn-sm btn-danger" data-cancel="${b.id}">Request cancel</button>
+      </div>` : ""}
     `;
 
     isPast ? pastList.appendChild(item) : upcomingList.appendChild(item);
   });
 
-  attachReportHandlers();
+  attachHandlers();
 }
 
-/* ================= SERVICE REPORT HANDLING ================= */
-function attachReportHandlers() {
-  document.querySelectorAll(".btn-report").forEach(button => {
-    button.addEventListener("click", () => {
-      const reportUrl = button.dataset.report;
-      reportUrl
-        ? window.open(reportUrl, "_blank")
-        : showPopup("Service report coming soon");
-    });
+/* ================= ACTION HANDLERS ================= */
+function attachHandlers() {
+
+  document.querySelectorAll("[data-change]").forEach(btn => {
+    btn.onclick = () => {
+      activeBookingId = btn.dataset.change;
+      modal.classList.remove("hidden");
+    };
+  });
+
+  document.querySelectorAll("[data-cancel]").forEach(btn => {
+    btn.onclick = async () => {
+      await updateDoc(doc(db, "bookings", btn.dataset.cancel), {
+        status: "cancel_requested",
+        cancelRequest: { requestedAt: Timestamp.now() }
+      });
+      loadBookings();
+    };
   });
 }
 
-/* ================= POPUP ================= */
-function showPopup(message) {
-  let popup = document.querySelector(".report-popup");
+document.getElementById("cancelChange").onclick = () => {
+  modal.classList.add("hidden");
+  activeBookingId = null;
+};
 
-  if (!popup) {
-    popup = document.createElement("div");
-    popup.className = "report-popup";
-    document.body.appendChild(popup);
-  }
+document.getElementById("submitChange").onclick = async () => {
+  if (!activeBookingId) return;
 
-  popup.textContent = message;
-  popup.classList.add("show");
+  await updateDoc(doc(db, "bookings", activeBookingId), {
+    status: "change_requested",
+    changeRequest: {
+      requestedAt: Timestamp.now(),
+      requestedDate: Timestamp.fromDate(
+        new Date(`${changeDate.value}T${changeTime.value}`)
+      ),
+      note: changeNote.value
+    }
+  });
 
-  setTimeout(() => popup.classList.remove("show"), 2500);
-}
+  modal.classList.add("hidden");
+  loadBookings();
+};
 
 /* ================= HELPERS ================= */
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+function formatDate(d) {
+  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
-
-/* ================= MOBILE NAV ================= */
-const navToggle = document.querySelector(".nav-toggle");
-const navLinks = document.querySelector(".nav-links");
-
-navToggle.addEventListener("click", () => {
-  navLinks.classList.toggle("open");
-});
+function formatTime(d) {
+  return d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+}
+function formatStatus(s) {
+  return s.replace("_", " ");
+}
