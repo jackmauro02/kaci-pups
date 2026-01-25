@@ -280,3 +280,93 @@ button.danger:hover {
     font-size: 1.05rem;
   }
 }
+
+
+/* ================= Calendar ================= */
+/* ================= CALENDAR ================= */
+
+.calendar-section {
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-header h2 {
+  min-width: 180px;
+  text-align: center;
+}
+
+.calendar-header button {
+  background: var(--primary);
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-day {
+  background: #f8fafc;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem;
+  font-size: 0.75rem;
+  min-height: 60px;
+  cursor: pointer;
+  position: relative;
+}
+
+.calendar-day:hover {
+  background: #eef2ff;
+}
+
+.calendar-day .count {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.calendar-day-details {
+  margin-top: 1.2rem;
+  background: #f8fafc;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  border: 1px solid var(--border-light);
+}
+
+.calendar-day-details h3 {
+  margin-top: 0;
+}
+
+.calendar-day-booking {
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.85rem;
+}
+
+.calendar-day-booking:last-child {
+  border-bottom: none;
+}

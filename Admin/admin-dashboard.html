@@ -14,6 +14,23 @@
 
 <main class="dashboard">
 
+  <section class="calendar-section">
+  <div class="calendar-header">
+    <button id="prevMonth">←</button>
+    <h2 id="calendarTitle"></h2>
+    <button id="nextMonth">→</button>
+  </div>
+
+  <div class="calendar-grid" id="calendarGrid"></div>
+
+  <div class="calendar-day-details hidden" id="calendarDayDetails">
+    <h3 id="selectedDayTitle"></h3>
+    <div id="selectedDayBookings"></div>
+  </div>
+</section>
+
+
+
   <section>
     <h2>Pending / Requests</h2>
     <div id="pendingBookings" class="booking-list"></div>

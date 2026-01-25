@@ -13,9 +13,23 @@ import {
 } from
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+/* ================= DOM ================= */
 const pendingContainer = document.getElementById("pendingBookings");
 const upcomingContainer = document.getElementById("approvedBookings");
 const previousContainer = document.getElementById("previousBookings");
+
+/* ===== CALENDAR DOM ===== */
+const calendarGrid = document.getElementById("calendarGrid");
+const calendarTitle = document.getElementById("calendarTitle");
+const prevMonthBtn = document.getElementById("prevMonth");
+const nextMonthBtn = document.getElementById("nextMonth");
+const dayDetails = document.getElementById("calendarDayDetails");
+const dayTitle = document.getElementById("selectedDayTitle");
+const dayBookings = document.getElementById("selectedDayBookings");
+
+/* ================= STATE ================= */
+let allBookings = [];
+let calendarDate = new Date();
 
 /* ================= AUTH ================= */
 onAuthStateChanged(auth, user => {
@@ -52,10 +66,99 @@ async function loadBookings() {
   });
 
   bookings.sort((a, b) => a.bookingDate - b.bookingDate);
+
+  allBookings = bookings;
+  renderCalendar();
+
   bookings.forEach(b => renderBooking(b, now));
 }
 
-/* ================= RENDER ================= */
+/* ================= CALENDAR ================= */
+function renderCalendar() {
+  if (!calendarGrid) return;
+
+  calendarGrid.innerHTML = "";
+  dayDetails.classList.add("hidden");
+
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  calendarTitle.textContent = calendarDate.toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric"
+  });
+
+  const firstDay = new Date(year, month, 1).getDay() || 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 1; i < firstDay; i++) {
+    const empty = document.createElement("div");
+    empty.className = "calendar-day empty";
+    calendarGrid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.className = "calendar-day";
+    cell.innerHTML = `<strong>${day}</strong>`;
+
+    const dayBookingsList = allBookings.filter(b =>
+      b.bookingDate.getFullYear() === year &&
+      b.bookingDate.getMonth() === month &&
+      b.bookingDate.getDate() === day
+    );
+
+    if (dayBookingsList.length) {
+      const badge = document.createElement("div");
+      badge.className = "count";
+      badge.textContent = dayBookingsList.length;
+      cell.appendChild(badge);
+
+      cell.onclick = () =>
+        openCalendarDay(dayBookingsList, day, month, year);
+    }
+
+    calendarGrid.appendChild(cell);
+  }
+}
+
+function openCalendarDay(bookings, day, month, year) {
+  dayDetails.classList.remove("hidden");
+  dayBookings.innerHTML = "";
+
+  dayTitle.textContent = new Date(year, month, day)
+    .toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long"
+    });
+
+  bookings.forEach(b => {
+    const div = document.createElement("div");
+    div.className = "calendar-day-booking";
+    div.innerHTML = `
+      <strong>${b.dogName || "Dog booking"}</strong><br>
+      ${b.service}<br>
+      ${b.bookingDate.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit"
+      })} – £${b.price}
+    `;
+    dayBookings.appendChild(div);
+  });
+}
+
+prevMonthBtn?.addEventListener("click", () => {
+  calendarDate.setMonth(calendarDate.getMonth() - 1);
+  renderCalendar();
+});
+
+nextMonthBtn?.addEventListener("click", () => {
+  calendarDate.setMonth(calendarDate.getMonth() + 1);
+  renderCalendar();
+});
+
+/* ================= RENDER BOOKINGS ================= */
 function renderBooking(b, now) {
   const status = b.status || "pending";
 
@@ -147,65 +250,9 @@ function renderBooking(b, now) {
   };
 
   /* ================= STATUS LOGIC ================= */
-
   if (status === "pending") {
     addBtn(actions, "Approve", () => setStatus(b.id, "approved"));
     addBtn(actions, "Decline", () => setStatus(b.id, "declined"), "danger");
-    pendingContainer.appendChild(card);
-    return;
-  }
-
-  if (status === "change_requested") {
-    let requestedDateStr = "—";
-    let requestedTimeStr = "—";
-
-    if (b.changeRequest?.requestedDate?.toDate) {
-      requestedDateStr =
-        b.changeRequest.requestedDate.toDate().toLocaleDateString("en-GB");
-    }
-
-    if (b.changeRequest?.requestedTime) {
-      requestedTimeStr = b.changeRequest.requestedTime;
-    }
-
-    card.insertAdjacentHTML("beforeend", `
-      <p><strong>Requested:</strong> ${requestedDateStr} – ${requestedTimeStr}</p>
-    `);
-
-    addBtn(actions, "Approve change", async () => {
-      if (!b.changeRequest?.requestedDate || !b.changeRequest?.requestedTime) {
-        alert("Change request missing date or time.");
-        return;
-      }
-
-      await updateDoc(doc(db, "bookings", b.id), {
-        bookingAt: b.changeRequest.requestedDate,
-        date: requestedDateStr.split("/").reverse().join("-"),
-        time: b.changeRequest.requestedTime,
-        status: "approved",
-        changeRequest: null
-      });
-
-      loadBookings();
-    });
-
-    addBtn(actions, "Reject change", async () => {
-      await updateDoc(doc(db, "bookings", b.id), {
-        status: "approved",
-        changeRequest: null
-      });
-      loadBookings();
-    }, "danger");
-
-    pendingContainer.appendChild(card);
-    return;
-  }
-
-  if (status === "cancel_requested") {
-    addBtn(actions, "Confirm cancel", () =>
-      setStatus(b.id, "declined"), "danger");
-    addBtn(actions, "Keep booking", () =>
-      setStatus(b.id, "approved"));
     pendingContainer.appendChild(card);
     return;
   }
