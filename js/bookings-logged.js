@@ -43,6 +43,12 @@ const changeNote = document.getElementById("changeNote");
 let currentUserId = null;
 let activeBookingId = null;
 
+const today = new Date().toISOString().split("T")[0];
+
+document.getElementById("date").min = today;
+document.getElementById("changeDate").min = today;
+
+
 /* ================= AUTH ================= */
 onAuthStateChanged(auth, async user => {
   if (!user) return;
@@ -80,22 +86,32 @@ async function loadDogs() {
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
-  const dogId = dogSelect.value;
-  const dogName = dogSelect.options[dogSelect.selectedIndex].text;
-  const serviceOpt = serviceSelect.options[serviceSelect.selectedIndex];
+  if (!dogSelect.value || !serviceSelect.value || !date.value || !time.value) {
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-  const bookingAt = new Date(
-    `${date.value}T${time.value}`
-  );
+  const bookingAt = new Date(`${date.value}T${time.value}`);
+  const now = new Date();
+
+  // strip seconds for fairness
+  now.setSeconds(0, 0);
+
+  if (bookingAt < now) {
+    alert("Booking date must be today or in the future.");
+    return;
+  }
+
+  const serviceOpt = serviceSelect.options[serviceSelect.selectedIndex];
 
   await addDoc(collection(db, "bookings"), {
     userId: currentUserId,
-    dogId,
-    dogName,
+    dogId: dogSelect.value,
+    dogName: dogSelect.options[dogSelect.selectedIndex].text,
     service: serviceOpt.value,
     price: Number(serviceOpt.dataset.price),
     bookingAt: Timestamp.fromDate(bookingAt),
-    notes: notes.value,
+    notes: notes.value || "",
     status: "pending",
     createdAt: Timestamp.now()
   });
@@ -103,6 +119,7 @@ form.addEventListener("submit", async e => {
   form.reset();
   loadBookings();
 });
+
 
 /* ================= LOAD BOOKINGS ================= */
 async function loadBookings() {
@@ -167,12 +184,16 @@ function attachHandlers() {
 
   document.querySelectorAll("[data-cancel]").forEach(btn => {
     btn.onclick = async () => {
-      await updateDoc(doc(db, "bookings", btn.dataset.cancel), {
-        status: "cancel_requested",
-        cancelRequest: { requestedAt: Timestamp.now() }
-      });
-      loadBookings();
-    };
+  if (!confirm("Are you sure you want to request cancellation?")) return;
+
+  await updateDoc(doc(db, "bookings", btn.dataset.cancel), {
+    status: "cancel_requested",
+    cancelRequest: { requestedAt: Timestamp.now() }
+  });
+
+  loadBookings();
+};
+
   });
 }
 
@@ -184,20 +205,39 @@ document.getElementById("cancelChange").onclick = () => {
 document.getElementById("submitChange").onclick = async () => {
   if (!activeBookingId) return;
 
+  if (!changeDate.value || !changeTime.value) {
+    alert("Please select a new date and time.");
+    return;
+  }
+
+  const requestedDate = new Date(`${changeDate.value}T${changeTime.value}`);
+  const now = new Date();
+
+  now.setSeconds(0, 0);
+
+  if (requestedDate < now) {
+    alert("Change request must be for a future date.");
+    return;
+  }
+
   await updateDoc(doc(db, "bookings", activeBookingId), {
     status: "change_requested",
     changeRequest: {
       requestedAt: Timestamp.now(),
-      requestedDate: Timestamp.fromDate(
-        new Date(`${changeDate.value}T${changeTime.value}`)
-      ),
-      note: changeNote.value
+      requestedDate: Timestamp.fromDate(requestedDate),
+      note: changeNote.value || ""
     }
   });
 
   modal.classList.add("hidden");
+  changeDate.value = "";
+  changeTime.value = "";
+  changeNote.value = "";
+  activeBookingId = null;
+
   loadBookings();
 };
+
 
 /* ================= HELPERS ================= */
 function formatDate(d) {
