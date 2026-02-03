@@ -78,13 +78,13 @@
         <input id="dogName" required>
 
         <label>Breed</label>
-        <input id="dogBreed">
+        <input id="dogBreed" required>
 
         <label>Age</label>
-        <input id="dogAge" type="number" min="0">
+        <input id="dogAge" type="number" min="0" required>
 
         <label>Behaviour / reactivity notes</label>
-        <textarea id="dogBehaviour"></textarea>
+        <textarea id="dogBehaviour" required></textarea>
 
         <div class="inline-row">
           <div class="checkbox-block">
@@ -111,7 +111,7 @@
         <textarea id="dogMedical"></textarea>
 
         <label>Registered vets</label>
-        <input id="dogVets">
+        <input id="dogVets" required>
  
         <button type="button" class="btn btn-secondary" id="closeModal">Cancel</button>
         <button class="btn btn-primary" id="saveModal" type="submit">Save</button>
