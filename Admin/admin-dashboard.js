@@ -17,6 +17,7 @@ import {
 const pendingContainer = document.getElementById("pendingBookings");
 const upcomingContainer = document.getElementById("approvedBookings");
 const previousContainer = document.getElementById("previousBookings");
+const changeRequestsContainer = document.getElementById("changeRequests"); 
 
 /* ===== CALENDAR DOM ===== */
 const calendarGrid = document.getElementById("calendarGrid");
@@ -45,6 +46,7 @@ async function loadBookings() {
   pendingContainer.innerHTML = "";
   upcomingContainer.innerHTML = "";
   previousContainer.innerHTML = "";
+  changeRequestsContainer.innerHTML = "";
 
   const now = new Date();
   const snap = await getDocs(query(collection(db, "bookings")));
@@ -171,11 +173,38 @@ function renderBooking(b, now) {
     minute: "2-digit"
   });
 
+  /* ===== FIX #1: SAFELY READ REQUESTED CHANGE ===== */
+  let requestedHtml = "";
+
+  if (b.requestedChange) {
+    let reqDate = b.requestedChange.date;
+    let reqTime = b.requestedChange.time;
+
+    if (!reqDate && b.requestedChange.bookingAt?.toDate) {
+      const d = b.requestedChange.bookingAt.toDate();
+      reqDate = d.toISOString().split("T")[0];
+      reqTime = d.toTimeString().slice(0, 5);
+    }
+
+    requestedHtml = `
+      <div class="requested-change">
+        <p><strong>Requested change:</strong></p>
+        <p>${reqDate || "—"} – ${reqTime || "—"}</p>
+        <small>
+          Requested at:
+          ${b.requestedChange.requestedAt?.toDate?.().toLocaleString("en-GB") || "—"}
+        </small>
+      </div>
+    `;
+  }
+
   card.innerHTML = `
     <strong>${b.dogName || "Dog booking"}</strong>
     <p>${b.service}</p>
     <p>${dateStr} – ${timeStr}</p>
+    ${requestedHtml}
     <p>£${b.price}</p>
+
     <span class="status ${status}">${status.replace("_", " ")}</span>
 
     <button class="details-btn">View details</button>
@@ -191,6 +220,8 @@ function renderBooking(b, now) {
     <div class="admin-actions"></div>
   `;
 
+
+  
   /* ================= DETAILS ================= */
   const detailsBtn = card.querySelector(".details-btn");
   const detailsBox = card.querySelector(".details");
@@ -249,7 +280,37 @@ function renderBooking(b, now) {
     loadBookings();
   };
 
-  /* ================= STATUS LOGIC ================= */
+    /* ================= STATUS LOGIC ================= */
+
+  /* ===== FIX #2: CHANGE REQUESTS ALWAYS FIRST ===== */
+  if (status === "change_requested" && b.requestedChange) {
+    addBtn(actions, "Approve change", async () => {
+      await updateDoc(doc(db, "bookings", b.id), {
+        bookingAt: Timestamp.fromDate(
+          new Date(`${b.requestedChange.date}T${b.requestedChange.time}`)
+        ),
+        date: b.requestedChange.date,
+        time: b.requestedChange.time,
+        requestedChange: null,
+        status: "approved"
+      });
+      loadBookings();
+    });
+
+    addBtn(actions, "Decline change", async () => {
+      await updateDoc(doc(db, "bookings", b.id), {
+        requestedChange: null,
+        status: "approved"
+      });
+      loadBookings();
+    }, "danger");
+
+    changeRequestsContainer.appendChild(card);
+    return; // ⬅️ IMPORTANT: never fall through
+  }
+
+
+  
   if (status === "pending") {
     addBtn(actions, "Approve", () => setStatus(b.id, "approved"));
     addBtn(actions, "Decline", () => setStatus(b.id, "declined"), "danger");

@@ -14,33 +14,41 @@
 
 <main class="dashboard">
 
+  <!-- CALENDAR -->
   <section class="calendar-section">
-  <div class="calendar-header">
-    <button id="prevMonth">←</button>
-    <h2 id="calendarTitle"></h2>
-    <button id="nextMonth">→</button>
-  </div>
+    <div class="calendar-header">
+      <button id="prevMonth">←</button>
+      <h2 id="calendarTitle"></h2>
+      <button id="nextMonth">→</button>
+    </div>
 
-  <div class="calendar-grid" id="calendarGrid"></div>
+    <div class="calendar-grid" id="calendarGrid"></div>
 
-  <div class="calendar-day-details hidden" id="calendarDayDetails">
-    <h3 id="selectedDayTitle"></h3>
-    <div id="selectedDayBookings"></div>
-  </div>
-</section>
+    <div class="calendar-day-details hidden" id="calendarDayDetails">
+      <h3 id="selectedDayTitle"></h3>
+      <div id="selectedDayBookings"></div>
+    </div>
+  </section>
 
-
-
+  <!-- CHANGE REQUESTS -->
   <section>
-    <h2>Pending / Requests</h2>
+    <h2>Change Requests</h2>
+    <div id="changeRequests" class="booking-list"></div>
+  </section>
+
+  <!-- PENDING -->
+  <section>
+    <h2>Pending Bookings</h2>
     <div id="pendingBookings" class="booking-list"></div>
   </section>
 
+  <!-- UPCOMING -->
   <section>
     <h2>Upcoming Bookings</h2>
     <div id="approvedBookings" class="booking-list"></div>
   </section>
 
+  <!-- PREVIOUS -->
   <section>
     <h2>Previous Bookings</h2>
     <div id="previousBookings" class="booking-list"></div>
