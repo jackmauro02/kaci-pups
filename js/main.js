@@ -103,3 +103,21 @@ const navLinks = document.querySelector('.nav-links');
 navToggle.addEventListener('click', () => {
     navLinks.classList.toggle('open');
 });
+
+// Services slider auto-scroll
+const track = document.querySelector(".services-track");
+
+if (track) {
+  let scrollAmount = 0;
+
+  setInterval(() => {
+    scrollAmount += 260;
+    if (scrollAmount >= track.scrollWidth - track.clientWidth) {
+      scrollAmount = 0;
+    }
+    track.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth"
+    });
+  }, 3500);
+}

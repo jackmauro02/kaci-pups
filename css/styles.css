@@ -235,7 +235,7 @@ img {
 .site-footer {
     background: #222;
     padding: 4rem 0;
-    margin-top: 5rem;
+    margin-top: 0;
 }
 
 .site-footer p,
@@ -616,3 +616,113 @@ header {
     }
 }
 
+
+
+/* ================= HERO IMAGE ENHANCEMENT ================= */
+.hero-slideshow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0,0,0,0.25),
+    rgba(0,0,0,0.05)
+  );
+  z-index: 1;
+}
+
+.hero-slideshow img {
+  animation: slowZoom 12s ease-in-out infinite;
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+/* ================= PAGE PREVIEWS ================= */
+.page-previews {
+  background: var(--white);
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 3rem;
+  margin-top: 3rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.preview-card img {
+  display: block;
+  margin: 0 auto 1.2rem auto;
+  width: 60%;
+  border-radius: var(--radius);
+}
+
+.preview-link {
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* ================= SERVICES SLIDER ================= */
+.services-slider {
+  background: var(--secondary);
+}
+
+.slider-wrapper {
+  overflow: hidden;
+  margin: 3rem 0;
+}
+
+.services-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.service-slide {
+  min-width: 240px;
+  background: white;
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ================= REVIEWS ================= */
+.reviews-home {
+  background: linear-gradient(135deg, var(--primary), #5fa48b);
+  color: white;
+  
+}
+
+.review-card {
+  max-width: 620px;
+  margin: 2.5rem auto;
+  
+}
+
+.review-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: white;
+}
+
+.stars {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: yellow;
+}
+
+.review-author {
+  opacity: 0.85;
+}
+
+.review-button {
+  background: white;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
