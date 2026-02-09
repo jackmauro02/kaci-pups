@@ -169,3 +169,21 @@ form.addEventListener("submit", async (e) => {
   loadDogs();
 });
 
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+  }
+});
+
+openModalBtn.onclick = () => {
+  editingDogId = null;
+  modalTitle.textContent = "Add Dog";
+  form.reset();
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+};
+
+closeModalBtn.onclick = () => {
+  modal.classList.add("hidden");
+  document.body.style.overflow = "";
+};

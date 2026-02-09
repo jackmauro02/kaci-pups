@@ -57,11 +57,13 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 3000;
-  padding: 1.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
 }
 
 .modal.hidden {
@@ -72,26 +74,31 @@
   background: white;
   width: 100%;
   max-width: 520px;
-  height: 90vh;                 /* FIXED HEIGHT */
-  display: flex;
-  flex-direction: column;
+
+  max-height: 90vh;      /* KEY */
+  overflow-y: auto;      /* KEY */
+
   border-radius: 16px;
-  max-height: calc(100vh - 3rem);
+  padding: 1rem 1.2rem;
 }
+
 
 /* Header */
 .modal-card h3 {
-  padding: 0.85rem 1.2rem;
+  margin: 0 0 1rem;
   font-size: 1.05rem;
   font-weight: 600;
   border-bottom: 1px solid #eee;
+  padding-bottom: 0.6rem;
 }
+
 
 /* Scrollable body */
 .modal-body {
-  flex: 1;
+  flex: 1 1 auto;
   padding: 0.85rem 1.2rem;
   overflow-y: auto;
+  min-height: 0;
 }
 
 /* Labels */
@@ -106,13 +113,13 @@
 /* Inputs */
 .modal-body input,
 .modal-body textarea {
-  width: 100%;
-  padding: 0.4rem 0.55rem;
-  margin-bottom: 0.55rem;
+  width: 100%;          /* 🔥 NOT 75% */
+  padding: 0.55rem;
   border-radius: 7px;
   border: 1px solid #d8d8d8;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
 }
+
 
 .modal-body textarea {
   min-height: 38px;     /* one-line look */
@@ -139,12 +146,15 @@
 
 /* Footer (ALWAYS VISIBLE) */
 .modal-actions {
-  padding: 1rem 1.25rem 1.25rem;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 0.9rem 1.25rem;
   border-top: 1px solid #eee;
+
   display: flex;
   justify-content: flex-end;
-  gap: 0.7rem;
-  background: white;
+  gap: 0.75rem;
 }
 
 .modal-body input[type="file"] {
@@ -216,4 +226,12 @@
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+
+@media (min-width: 640px) {
+  .inline-row {
+    grid-template-columns: 1fr 2fr;
+    align-items: end;
+  }
 }
