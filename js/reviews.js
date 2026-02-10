@@ -1,29 +1,66 @@
 const reviews = [
     {
-        name: "Sarah",
+        name: "Luke",
         location: "Bracknell",
         rating: 5,
-        text: "Kaci is amazing — our dog absolutely loves her walks and comes home happy every time."
+        text: "Kaci has been brilliant with Bella. She’s always excited for her walks and comes home calm and happy."
     },
     {
-        name: "James",
+        name: "Jamie",
         location: "Binfield",
         rating: 5,
-        text: "Reliable, friendly and trustworthy. I wouldn’t trust anyone else."
+        text: "Bobby absolutely loves his walks with Kaci. Reliable, friendly, and great with energetic dogs."
     },
     {
-        name: "Emma",
-        location: "Wokingham",
+        name: "Tasha",
+        location: "Reading",
         rating: 5,
-        text: "So reassuring knowing my dog is in safe hands while I’m at work."
+        text: "Buddy can be a handful but Kaci handles him so well. Really reassuring knowing he’s in safe hands."
     },
     {
-        name: "Lucy",
+        name: "Stephan",
         location: "Ascot",
         rating: 5,
-        text: "Professional, caring and great communication. Highly recommend!"
+        text: "Poppy took to Kaci straight away. Excellent communication and very professional service."
+    },
+    {
+        name: "Michelle",
+        location: "Bracknell",
+        rating: 5,
+        text: "Diesel is a hyperactive, strong dog and Kaci manages him confidently. Couldn’t ask for better care, She even taught him some tricks!"
+    },
+    {
+        name: "John",
+        location: "Wokingham",
+        rating: 5,
+        text: "Bruce is always relaxed after his walks. Kaci is punctual, caring, and clearly loves what she does."
+    },
+    {
+        name: "Jack",
+        location: "Warfield",
+        rating: 5,
+        text: "Rambo needs structure and consistency, and Kaci delivers every time. Highly recommended."
+    },
+    {
+        name: "Hannah",
+        location: "Crowthorne",
+        rating: 4,
+        text: "Great service overall. Our dog Milo really enjoys his walks — just wish we’d found Kaci sooner."
+    },
+    {
+        name: "Ryan",
+        location: "Sandhurst",
+        rating: 4,
+        text: "Very dependable and friendly. Max is always well looked after and comes back tired and content."
+    },
+    {
+        name: "Sophie",
+        location: "Earley",
+        rating: 3,
+        text: "Good experience overall. Daisy took a little time to settle, but Kaci was patient and understanding."
     }
 ];
+
 
 const grid = document.getElementById("reviewsGrid");
 
