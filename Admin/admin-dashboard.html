@@ -14,6 +14,64 @@
 
 <main class="dashboard">
 
+<!-- CREATE BOOKING -->
+<section class="create-booking-section">
+  <h2>Add New Booking</h2>
+
+  <div class="create-booking-form">
+    <select id="adminUserSelect">
+      <option value="">Select Customer</option>
+    </select>
+
+    <select id="adminDogSelect">
+      <option value="">Select Dog</option>
+    </select>
+
+    <select id="adminServiceSelect">
+  <option value="">Select Service</option>
+
+  <!-- Solo Home -->
+  <option value="solo_home_30">Solo Walk (Home) – 30m</option>
+  <option value="solo_home_45">Solo Walk (Home) – 45m</option>
+
+  <!-- Solo Driven -->
+  <option value="solo_driven_30">Solo Walk (Driven) – 30m</option>
+  <option value="solo_driven_45">Solo Walk (Driven) – 45m</option>
+
+  <!-- Group -->
+  <option value="group_30">Group Walk – 30m</option>
+  <option value="group_60">Group Walk – 60m</option>
+
+  <!-- Drop In -->
+  <option value="dropin_30">Drop-In Visit – 30m</option>
+  <option value="dropin_60">Drop-In Visit – 60m</option>
+
+  <!-- Holiday -->
+  <option value="holiday_day">Holiday Care – Per Day</option>
+  <option value="holiday_constant">Holiday Care – Constant Weekend</option>
+
+  <!-- Vet -->
+  <option value="vet_hour">Vet Visit – Per Hour</option>
+</select>
+
+
+    <input type="date" id="adminDate">
+    <input type="time" id="adminTime">
+
+    <input type="number" id="adminPrice" placeholder="Price (£)">
+
+    <select id="adminPaymentStatus">
+      <option value="unpaid">Unpaid</option>
+      <option value="paid">Paid</option>
+    </select>
+
+    <button id="adminCreateBookingBtn" class="primary">
+      Create Booking
+    </button>
+  </div>
+</section>
+
+
   <!-- CALENDAR -->
   <section class="calendar-section">
     <div class="calendar-header">

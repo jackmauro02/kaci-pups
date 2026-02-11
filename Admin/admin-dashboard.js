@@ -9,9 +9,40 @@ import {
   updateDoc,
   doc,
   getDoc,
+  addDoc,
   Timestamp
 } from
   "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+/* ================= Book ================= */
+const adminUserSelect = document.getElementById("adminUserSelect");
+const adminDogSelect = document.getElementById("adminDogSelect");
+const adminServiceSelect = document.getElementById("adminServiceSelect");
+const adminDateInput = document.getElementById("adminDate");
+const adminTimeInput = document.getElementById("adminTime");
+const adminPriceInput = document.getElementById("adminPrice");
+const adminPaymentStatus = document.getElementById("adminPaymentStatus");
+const adminCreateBtn = document.getElementById("adminCreateBookingBtn");
+
+const SERVICE_PRICES = {
+  solo_home_30: 12,
+  solo_home_45: 15,
+
+  solo_driven_30: 14,
+  solo_driven_45: 17,
+
+  group_30: 11,
+  group_60: 15,
+
+  dropin_30: 10,
+  dropin_60: 16,
+
+  holiday_day: 30,
+  holiday_constant: 90,
+
+  vet_hour: 14
+};
+
 
 /* ================= DOM ================= */
 const pendingContainer = document.getElementById("pendingBookings");
@@ -39,6 +70,7 @@ onAuthStateChanged(auth, user => {
     return;
   }
   loadBookings();
+  loadUsersForAdmin();
 });
 
 /* ================= LOAD BOOKINGS ================= */
@@ -416,3 +448,108 @@ async function markAsPaid(id) {
   });
   loadBookings();
 }
+
+async function loadUsersForAdmin() {
+  const usersSnap = await getDocs(collection(db, "users"));
+
+  adminUserSelect.innerHTML =
+    `<option value="">Select Customer</option>`;
+
+  usersSnap.forEach(docSnap => {
+    const user = docSnap.data();
+
+    const option = document.createElement("option");
+    option.value = docSnap.id;
+    option.textContent = `${user.firstName || ""} ${user.lastName || ""}`;
+
+    adminUserSelect.appendChild(option);
+  });
+}
+
+adminUserSelect.addEventListener("change", async () => {
+
+  const userId = adminUserSelect.value;
+  adminDogSelect.innerHTML = `<option value="">Select Dog</option>`;
+
+  if (!userId) return;
+
+  const dogsSnap = await getDocs(collection(db, "users", userId, "dogs"));
+
+  dogsSnap.forEach(docSnap => {
+    const dog = docSnap.data();
+
+    const option = document.createElement("option");
+    option.value = docSnap.id;
+    option.textContent = dog.name;
+
+    adminDogSelect.appendChild(option);
+  });
+});
+
+adminCreateBtn.addEventListener("click", async () => {
+
+  const userId = adminUserSelect.value;
+  const dogId = adminDogSelect.value;
+  const serviceKey = adminServiceSelect.value;
+  const date = adminDateInput.value;
+  const time = adminTimeInput.value;
+  const price = parseFloat(adminPriceInput.value);
+  const paymentStatus = adminPaymentStatus.value;
+
+  if (!userId || !dogId || !serviceKey || !date || !time || !price) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  const bookingDateObj = new Date(`${date}T${time}`);
+
+  const dogSnap = await getDoc(doc(db, "users", userId, "dogs", dogId));
+  const dogData = dogSnap.data();
+
+  const serviceLabel =
+    adminServiceSelect.options[adminServiceSelect.selectedIndex].text;
+
+  await addDoc(collection(db, "bookings"), {
+    userId,
+    dogId,
+    dogName: dogData.name,
+
+    service: serviceLabel,   // CLEAN NAME
+    serviceKey,              // INTERNAL KEY (future use)
+
+    bookingAt: Timestamp.fromDate(bookingDateObj),
+    date,
+    time,
+
+    price,
+    originalPrice: SERVICE_PRICES[serviceKey], // track discount if edited
+
+    paymentStatus,
+    status: "approved",
+
+    createdBy: "admin",
+    createdAt: Timestamp.now()
+  });
+
+  alert("Booking created successfully.");
+
+  adminUserSelect.value = "";
+  adminDogSelect.innerHTML = `<option value="">Select Dog</option>`;
+  adminServiceSelect.value = "";
+  adminDateInput.value = "";
+  adminTimeInput.value = "";
+  adminPriceInput.value = "";
+  adminPaymentStatus.value = "unpaid";
+
+  loadBookings();
+});
+
+
+adminServiceSelect.addEventListener("change", () => {
+  const serviceKey = adminServiceSelect.value;
+  const price = SERVICE_PRICES[serviceKey];
+
+  if (price) {
+    adminPriceInput.value = price;
+  }
+});

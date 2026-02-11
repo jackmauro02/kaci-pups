@@ -383,3 +383,26 @@ button.success {
 .unpaid {
   color: #e74c3c;
 }
+
+.create-booking-section {
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.create-booking-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.create-booking-form select,
+.create-booking-form input {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  font-size: 0.85rem;
+}
