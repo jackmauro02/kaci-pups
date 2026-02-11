@@ -406,3 +406,22 @@ button.success {
   border: 1px solid var(--border-light);
   font-size: 0.85rem;
 }
+
+.search-section {
+  grid-column: 1 / -1;
+  margin-bottom: 1rem;
+}
+
+#bookingSearch {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  font-size: 0.95rem;
+}
+
+#bookingSearch:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}

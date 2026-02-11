@@ -48,7 +48,9 @@ const SERVICE_PRICES = {
 const pendingContainer = document.getElementById("pendingBookings");
 const upcomingContainer = document.getElementById("approvedBookings");
 const previousContainer = document.getElementById("previousBookings");
-const changeRequestsContainer = document.getElementById("changeRequests"); 
+const changeRequestsContainer = document.getElementById("changeRequests");
+const bookingSearch = document.getElementById("bookingSearch");
+
 
 /* ===== CALENDAR DOM ===== */
 const calendarGrid = document.getElementById("calendarGrid");
@@ -84,20 +86,38 @@ async function loadBookings() {
   const snap = await getDocs(query(collection(db, "bookings")));
   const bookings = [];
 
-  snap.forEach(d => {
-    const b = d.data();
-    let bookingDate;
+  for (const d of snap.docs) {
+  const b = d.data();
+  let bookingDate;
 
-    if (b.bookingAt?.toDate) {
-      bookingDate = b.bookingAt.toDate();
-    } else if (b.date && b.time) {
-      bookingDate = new Date(`${b.date}T${b.time}`);
-    } else {
-      return;
+  if (b.bookingAt?.toDate) {
+    bookingDate = b.bookingAt.toDate();
+  } else if (b.date && b.time) {
+    bookingDate = new Date(`${b.date}T${b.time}`);
+  } else {
+    continue;
+  }
+
+  // 🔥 fetch owner safely
+  let ownerName = "";
+  if (b.userId) {
+    try {
+      const userSnap = await getDoc(doc(db, "users", b.userId));
+      const userData = userSnap.data() || {};
+      ownerName = `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
+    } catch (err) {
+      console.error("Error fetching user:", err);
     }
+  }
 
-    bookings.push({ id: d.id, ...b, bookingDate });
+  bookings.push({
+    id: d.id,
+    ...b,
+    bookingDate,
+    ownerName
   });
+}
+
 
   bookings.sort((a, b) => a.bookingDate - b.bookingDate);
 
@@ -553,3 +573,37 @@ adminServiceSelect.addEventListener("change", () => {
     adminPriceInput.value = price;
   }
 });
+
+function filterAndRenderBookings(searchTerm) {
+  pendingContainer.innerHTML = "";
+  upcomingContainer.innerHTML = "";
+  previousContainer.innerHTML = "";
+  changeRequestsContainer.innerHTML = "";
+
+  const now = new Date();
+
+  const filtered = allBookings.filter(b => {
+    const text = `
+      ${b.dogName || ""}
+      ${b.ownerName || ""}
+      ${b.service || ""}
+      ${b.status || ""}
+      ${b.paymentStatus || ""}
+      ${b.date || ""}
+    `.toLowerCase();
+
+    return text.includes(searchTerm.toLowerCase());
+  });
+
+  filtered.forEach(b => renderBooking(b, now));
+}
+bookingSearch?.addEventListener("input", e => {
+  const value = e.target.value.trim();
+
+  if (!value) {
+    loadBookings(); // reset
+  } else {
+    filterAndRenderBookings(value);
+  }
+});
+
