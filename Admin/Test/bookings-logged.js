@@ -40,6 +40,10 @@ const changeDate = document.getElementById("changeDate");
 const changeTime = document.getElementById("changeTime");
 const changeNote = document.getElementById("changeNote");
 
+const dateInput = document.getElementById("date");
+const timeSelect = document.getElementById("time");
+
+
 let currentUserId = null;
 let activeBookingId = null;
 
@@ -54,6 +58,7 @@ onAuthStateChanged(auth, async user => {
   if (!user) return;
   currentUserId = user.uid;
   loadServices();
+  loadTimeSlots();
   await loadDogs();
   await loadBookings();
 });
@@ -79,6 +84,7 @@ serviceSelect.addEventListener("change", () => {
     opt && opt.dataset.price ? `Price: £${opt.dataset.price}` : "";
 });
 
+
 /* ================= LOAD DOGS ================= */
 async function loadDogs() {
   dogSelect.innerHTML = `<option value="">Select dog</option>`;
@@ -95,12 +101,26 @@ async function loadDogs() {
 form.addEventListener("submit", async e => {
   e.preventDefault();
 
-  if (!dogSelect.value || !serviceSelect.value || !date.value || !time.value) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+  if (
+  !dogSelect.value ||
+  !serviceSelect.value ||
+  !dateInput.value ||
+  !timeSelect.value
+) {
+  alert("Please fill in all required fields.");
+  return;
+}
 
-  const bookingAt = new Date(`${date.value}T${time.value}`);
+
+  const bookingAt = new Date(
+  `${dateInput.value}T${timeSelect.value}:00`
+);
+
+if (isNaN(bookingAt.getTime())) {
+  alert("Invalid booking date or time.");
+  return;
+}
+
   const now = new Date();
 
   // strip seconds for fairness
@@ -172,11 +192,17 @@ async function loadBookings() {
         </span>
       </div>
 
-      ${!isPast ? `
-      <div class="booking-actions">
-        <button class="btn-sm btn-secondary" data-change="${b.id}">Request change</button>
-        <button class="btn-sm btn-danger" data-cancel="${b.id}">Request cancel</button>
-      </div>` : ""}
+      ${!isPast && b.status !== "cancel_requested" && b.status !== "change_requested" ? `
+  <div class="booking-actions">
+    <button class="btn-sm btn-secondary" data-change="${b.id}">
+      Request change
+    </button>
+    <button class="btn-sm btn-danger" data-cancel="${b.id}">
+      Request cancel
+    </button>
+  </div>
+` : ""}
+
     `;
 
     isPast ? pastList.appendChild(item) : upcomingList.appendChild(item);
@@ -192,6 +218,7 @@ function attachHandlers() {
     btn.onclick = () => {
       activeBookingId = btn.dataset.change;
       modal.classList.remove("hidden");
+      loadTimeSlots();
     };
   });
 
@@ -199,9 +226,13 @@ function attachHandlers() {
     btn.onclick = async () => {
   if (!confirm("Are you sure you want to request cancellation?")) return;
 
-  await updateDoc(doc(db, "bookings", btn.dataset.cancel), {
+  const bookingRef = doc(db, "bookings", btn.dataset.cancel);
+
+  await updateDoc(bookingRef, {
     status: "cancel_requested",
-    cancelRequest: { requestedAt: Timestamp.now() }
+    cancelRequest: {
+      requestedAt: Timestamp.now()
+    }
   });
 
   loadBookings();
@@ -257,8 +288,51 @@ function formatDate(d) {
   return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 function formatTime(d) {
-  return d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  const startHour = d.getHours();
+  const endHour = startHour + 2;
+
+  const start = `${String(startHour).padStart(2, "0")}:00`;
+  const end = `${String(endHour).padStart(2, "0")}:00`;
+
+  return `${start} – ${end}`;
 }
+
 function formatStatus(s) {
   return s.replace("_", " ");
 }
+
+
+function loadTimeSlots() {
+  const timeSelect = document.getElementById("time");
+  if (!timeSelect) return;
+
+  timeSelect.innerHTML = `<option value="">Select time</option>`;
+
+  for (let hour = 8; hour <= 18; hour += 2) {
+    const start = `${String(hour).padStart(2, "0")}:00`;
+    const end = `${String(hour + 2).padStart(2, "0")}:00`;
+
+    const opt = document.createElement("option");
+    opt.value = start;                 // 🔑 IMPORTANT
+    opt.textContent = `${start} – ${end}`;
+    timeSelect.appendChild(opt);
+  }
+}
+
+function loadChangeTimeSlots() {
+  const timeSelect = document.getElementById("changeTime");
+  if (!timeSelect) return;
+
+  timeSelect.innerHTML = `<option value="">Select time</option>`;
+
+  for (let hour = 8; hour <= 18; hour += 2) {
+    const start = `${String(hour).padStart(2, "0")}:00`;
+    const end = `${String(hour + 2).padStart(2, "0")}:00`;
+
+    const opt = document.createElement("option");
+    opt.value = start;                 // 🔑 IMPORTANT
+    opt.textContent = `${start} – ${end}`;
+    timeSelect.appendChild(opt);
+  }
+}
+

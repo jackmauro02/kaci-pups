@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Bookings | Kaci’s Pups</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/bookings-logged.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand">
+      <img src="images/kacispups.png" alt="Kaci’s Pups Logo">
+      <span class="brand-title">Kaci’s Pups</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a class="active" href="bookings.html">Bookings</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a class="btn btn-primary" href="account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <h1>My Bookings</h1>
+    <p>Create, view and track your dog walks</p>
+  </div>
+</section>
+
+<div class="container back-row">
+  <a href="account.html" class="back-link">← Back to dashboard</a>
+</div>
+
+<section class="container booking-dashboard">
+
+  <!-- REQUEST WALK -->
+  <div class="booking-card">
+    <h2>➕ Request a Walk</h2>
+
+    <form id="bookingForm">
+      <div class="form-grid">
+
+        <div class="form-field">
+          <label>Dog</label>
+          <select id="dogSelect" required></select>
+        </div>
+
+        <div class="form-field">
+          <label>Service</label>
+          <select id="service" required></select>
+        </div>
+
+        <div class="form-field">
+          <label>Date</label>
+          <input type="date" id="date" required>
+        </div>
+
+        <div class="form-field">
+          <label>Preferred Time</label>
+          <select id="time" required></select>
+        </div>
+
+        <div class="form-field full">
+          <label>Notes</label>
+          <textarea id="notes"></textarea>
+        </div>
+      </div>
+
+      <button class="btn btn-primary">Send Booking Request</button>
+      <p id="servicePrice" class="coming-soon"></p>
+    </form>
+  </div>
+
+  <!-- UPCOMING -->
+  <div class="booking-card">
+    <h2>📅 Upcoming Bookings</h2>
+    <div id="upcomingBookings" class="booking-list"></div>
+  </div>
+
+  <!-- PAST -->
+  <div class="booking-card">
+    <h2>✅ Previous Bookings</h2>
+    <div id="pastBookings" class="booking-list"></div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+    <img src="images/kacispups.png" alt="Kaci’s Pups Logo" />
+    <p class="footer-tagline">
+      Reliable dog walking & pet care </p>
+      <p class="footer-tagline">
+      Serving Bracknell, Reading & Berkshire
+    </p>
+  </div>
+
+    <!-- Contact -->
+    <div class="footer-section">
+    <h4>Explore</h4>
+    <a href="services.html">Services</a>
+    <a href="bookings.html">Bookings</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="footer-section">
+    <h4>Legal</h4>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+
+    <!-- Follow -->
+    <div class="footer-section">
+      <h4>Follow</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Instagram">Instagram</a>
+        <a href="#" aria-label="Facebook">Facebook</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Kaci’s Pups • All rights reserved
+  </div>
+</footer>
+
+<!-- CHANGE REQUEST MODAL -->
+<div id="changeModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Request booking change</h3>
+
+    <div class="form-field">
+      <label>Preferred date</label>
+      <input type="date" id="changeDate" required>
+    </div>
+
+    <div class="form-field">
+      <label>Preferred time</label>
+      <select id="changeTime" required></select>
+    </div>
+
+    <div class="form-field">
+      <label>Notes</label>
+      <textarea id="changeNote"></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button id="cancelChange" class="btn-secondary">Cancel</button>
+      <button id="submitChange" class="btn-primary">Send request</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/bookings-logged.js"></script>
+<script src="js/nav.js" defer></script>
+</body>
+</html>

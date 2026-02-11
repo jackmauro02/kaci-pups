@@ -41,6 +41,12 @@ onAuthStateChanged(auth, user => {
   loadBookings();
 });
 
+function getStartTime(timeRange) {
+  if (!timeRange) return null;
+  return timeRange.split("-")[0].trim();
+}
+
+
 /* ================= LOAD BOOKINGS ================= */
 async function loadBookings() {
   pendingContainer.innerHTML = "";
@@ -176,32 +182,24 @@ function renderBooking(b, now) {
   /* ===== FIX #1: SAFELY READ REQUESTED CHANGE ===== */
   let requestedHtml = "";
 
-  if (b.changeRequest?.requestedDate?.toDate) {
+  if (b.requestedChange) {
+  const reqDiv = document.createElement("div");
+  reqDiv.className = "requested-change";
 
-  const requestedDateObj = b.changeRequest.requestedDate.toDate();
+  const reqTitle = document.createElement("p");
+  reqTitle.innerHTML = "<strong>Requested change:</strong>";
+  reqDiv.appendChild(reqTitle);
 
-  const reqDateStr = requestedDateObj.toISOString().split("T")[0];
-  const reqTimeStr = requestedDateObj.toTimeString().slice(0, 5);
+  const reqTime = document.createElement("p");
+  reqTime.textContent = `${b.requestedChange.date || "—"} • ${b.requestedChange.time || "—"}`;
+  reqDiv.appendChild(reqTime);
 
-  const reqDisplayDate = requestedDateObj.toLocaleDateString("en-GB");
-  const reqDisplayTime = requestedDateObj.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+  const reqAt = document.createElement("small");
+  const requestedAtDate = b.requestedChange.requestedAt?.toDate?.();
+  reqAt.textContent = `Requested at: ${requestedAtDate ? requestedAtDate.toLocaleString("en-GB") : "—"}`;
+  reqDiv.appendChild(reqAt);
 
-  const note = b.changeRequest.note || "—";
-
-  requestedHtml = `
-    <div class="requested-change">
-      <p><strong>Requested change:</strong></p>
-      <p>${reqDisplayDate} – ${reqDisplayTime}</p>
-      <p><strong>Notes:</strong> ${note}</p>
-      <small>
-        Requested at:
-        ${b.changeRequest.requestedAt?.toDate?.().toLocaleString("en-GB") || "—"}
-      </small>
-    </div>
-  `;
+  card.appendChild(reqDiv);
 }
 
 
@@ -210,36 +208,19 @@ function renderBooking(b, now) {
     <p>${b.service}</p>
     <p>${dateStr} – ${timeStr}</p>
     ${requestedHtml}
-    <p>£${b.price}
-      <strong class="${b.paymentStatus === "paid" ? "paid" : "unpaid"}">
-        ${b.paymentStatus === "paid" ? "Paid" : "Unpaid"}
-      </strong>
-      </p>
+    <p>£${b.price}</p>
 
     <span class="status ${status}">${status.replace("_", " ")}</span>
-    
 
     <button class="details-btn">View details</button>
     <div class="details hidden"></div>
 
-   <div class="edit-panel">
-  <input type="date" class="edit-date" value="${
-    b.changeRequest?.requestedDate?.toDate
-      ? b.changeRequest.requestedDate.toDate().toISOString().split("T")[0]
-      : b.bookingDate.toISOString().split("T")[0]
-  }">
-
-  <input type="time" class="edit-time" value="${
-    b.changeRequest?.requestedDate?.toDate
-      ? b.changeRequest.requestedDate.toDate().toTimeString().slice(0, 5)
-      : b.bookingDate.toTimeString().slice(0, 5)
-  }">
-
-  <button class="primary save-edit">Save</button>
-  <button class="danger cancel-edit">Cancel</button>
-</div>
-
-
+    <div class="edit-panel hidden">
+      <input type="date" class="edit-date" value="${b.date || ""}">
+      <input type="time" class="edit-time" value="${b.time || ""}">
+      <button class="primary save-edit">Save</button>
+      <button class="danger cancel-edit">Cancel</button>
+    </div>
 
     <div class="admin-actions"></div>
   `;
@@ -264,6 +245,13 @@ function renderBooking(b, now) {
       <p>${user.email || ""}</p>
       <p>${user.phone || ""}</p>
       <p><strong>Pickup:</strong> ${user.address || "—"}</p>
+      <p>
+      Payment:
+      <strong class="${b.paymentStatus === "paid" ? "paid" : "unpaid"}">
+        ${b.paymentStatus === "paid" ? "Paid" : "Unpaid"}
+      </strong>
+      </p>
+
 
       <h4>Dog</h4>
       <p>Name: ${dog.name || ""}</p>
@@ -281,7 +269,7 @@ function renderBooking(b, now) {
   const actions = card.querySelector(".admin-actions");
   const editPanel = card.querySelector(".edit-panel");
 
-  // ================= PAYMENT ACTION =================
+// ================= PAYMENT ACTION =================
 if (b.paymentStatus !== "paid") {
   addBtn(
     actions,
@@ -294,11 +282,15 @@ if (b.paymentStatus !== "paid") {
   );
 }
 
-  /* ================= EDIT ================= */
-  card.querySelector(".cancel-edit").onclick = () => {
-  loadBookings(); // simple reset
-};
 
+  /* ================= EDIT ================= */
+  addBtn(actions, "Edit date/time", () => {
+    editPanel.classList.remove("hidden");
+  });
+
+  card.querySelector(".cancel-edit").onclick = () => {
+    editPanel.classList.add("hidden");
+  };
 
   card.querySelector(".save-edit").onclick = async () => {
     const newDate = card.querySelector(".edit-date").value;
@@ -316,64 +308,64 @@ if (b.paymentStatus !== "paid") {
 
     /* ================= STATUS LOGIC ================= */
 
-    
   /* ===== FIX #2: CHANGE REQUESTS ALWAYS FIRST ===== */
-  /* ================= CHANGE & CANCEL REQUESTS ================= */
+  /* ===== CHANGE & CANCEL REQUESTS ===== */
+if (status === "change_requested" || status === "cancel_requested") {
 
-if (status === "change_requested") {
+  // ---- CHANGE REQUEST ----
+  if (status === "change_requested" && b.requestedChange) {
+    addBtn(actions, "Approve change", async () => {
+  const startTime = getStartTime(b.requestedChange.time);
 
-  addBtn(actions, "Approve change", async () => {
+  if (!startTime) {
+    alert("Invalid requested time range");
+    return;
+  }
 
-    if (!b.changeRequest?.requestedDate?.toDate) return;
-
-    const newDateObj = b.changeRequest.requestedDate.toDate();
-
-    await updateDoc(doc(db, "bookings", b.id), {
-      bookingAt: Timestamp.fromDate(newDateObj),
-      date: newDateObj.toISOString().split("T")[0],
-      time: newDateObj.toTimeString().slice(0, 5),
-      changeRequest: null,
-      status: "approved"
-    });
-
-    loadBookings();
+  await updateDoc(doc(db, "bookings", b.id), {
+    bookingAt: Timestamp.fromDate(
+      new Date(`${b.requestedChange.date}T${startTime}`)
+    ),
+    date: b.requestedChange.date,
+    time: b.requestedChange.time, // KEEP full range
+    requestedChange: null,
+    status: "approved"
   });
 
-  addBtn(actions, "Decline change", async () => {
-    await updateDoc(doc(db, "bookings", b.id), {
-      changeRequest: null,
-      status: "approved"
-    });
+  loadBookings();
+});
 
-    loadBookings();
-  }, "danger");
+
+    addBtn(actions, "Decline change", async () => {
+      await updateDoc(doc(db, "bookings", b.id), {
+        requestedChange: null,
+        status: "approved"
+      });
+      loadBookings();
+    }, "danger");
+  }
+
+  // ---- CANCEL REQUEST ----
+  if (status === "cancel_requested") {
+    addBtn(actions, "Approve cancel", async () => {
+      await updateDoc(doc(db, "bookings", b.id), {
+        status: "cancelled",
+        cancelledAt: Timestamp.now()
+      });
+      loadBookings();
+    }, "danger");
+
+    addBtn(actions, "Keep booking", async () => {
+      await updateDoc(doc(db, "bookings", b.id), {
+        status: "approved",
+        cancelRequest: null
+      });
+      loadBookings();
+    });
+  }
 
   changeRequestsContainer.appendChild(card);
-  return;
-}
-
-
-if (status === "cancel_requested") {
-
-  addBtn(actions, "Approve cancel", async () => {
-    await updateDoc(doc(db, "bookings", b.id), {
-      status: "cancelled",
-      cancelledAt: Timestamp.now()
-    });
-
-    loadBookings();
-  }, "danger");
-
-  addBtn(actions, "Keep booking", async () => {
-    await updateDoc(doc(db, "bookings", b.id), {
-      status: "approved"
-    });
-
-    loadBookings();
-  });
-
-  changeRequestsContainer.appendChild(card);
-  return;
+  return; // ⬅️ CRITICAL: stop further rendering
 }
 
 
@@ -407,7 +399,6 @@ async function setStatus(id, status) {
   await updateDoc(doc(db, "bookings", id), { status });
   loadBookings();
 }
-
 
 async function markAsPaid(id) {
   await updateDoc(doc(db, "bookings", id), {
